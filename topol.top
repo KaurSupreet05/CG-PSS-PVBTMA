@@ -1,0 +1,17 @@
+#include "Pol-PSS.itp"
+;#include "Pol-PSS-em.itp"
+#include "new.itp"
+#include "pss.itp"
+
+
+[ system ]
+; name
+Mix in Pol-Mart Water
+
+[ molecules ]
+; name number
+PSS	1
+PVBT	1
+NA      16
+CL      16  
+PW         8600

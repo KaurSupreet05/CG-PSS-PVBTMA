@@ -1,0 +1,125 @@
+; Interactions defined here are taken as it is from the Martini FORCEFIELD PMF_BB-SC1_RLuca2a.itp
+; RB-POL interactions are changed from 95 almost intermediate o 95 intermediate 
+; Original Sep 24, 2014
+; Modified to Include parameters for PVBTMACl on Oct 26,2020
+
+
+[ defaults ]
+1    1
+
+
+[ atomtypes ]
+
+; new beads added for polystyrene:
+RB 45.0 0.000 A 0.0 0.0 ; ring bead
+BB 45.0 0.000 A 0.0 0.0 ; backbone bead
+AB 72.0 0.000 A 0.0 0.0 ; Same as AQa in BMW, negatively charged
+TB 72.0 0.000 A 0.0 0.0 ;
+Qd 72.0 0.000 A 0.0 0.0 ;
+Q0 72.0 0.000 A 0.0 0.0 ;
+Qa 72.0 0.000 A 0.0 0.0 ;
+
+; BMW water particle types (for 4-water cluster)
+POL 24.0 0.000 A 0.0 0.0    ; positive
+D   24.0 0.000 A 0.0 0.0    ; negative
+
+[ nonbond_params ]
+
+; new bead for polystyrene:
+  RB    RB      1       0.45601E-01     0.21661E-03 ; s=0.41, eps = 2.4, Luca's R-R 
+  BB    BB      1       0.66375E-01     0.41957E-03 ; 75intermediate, s=0.43, SC1-SC1
+  AB    AB      1       0.15091E-00     0.16267E-02 ; intermediate, Qa-Qa
+  TB	TB	1	0.15091E-00     0.16267E-02 ; intermediate, Q0-Q0
+  Qd    Qd      1       0.15091E-00     0.16267E-02 ; intermediate, New Addition
+  Qa	Qa	1	0.15091E-00     0.16267E-02 ; intermediate, New Addition
+
+; BMW water beads
+  D     D       1       0.00000E-00     0.00000E-00 ; no vdW
+  POL   POL     1       0.17246E-00     0.18590E-02 ; semi attractive
+
+; cross terms
+  RB   BB       1       0.58789E-01     0.37162E-03 ; 75almost intermediate, s=0.43, SC4-SC1
+  RB   AB       1       0.13366E-00     0.14408E-02 ; almost intermediate, SC4-Qa
+  RB   POL      1       0.14336E-00     0.15454E-02 ; intermediate 95%, New Modif-2.0
+  RB   D        1       0.00            0.00
+  BB   AB       1       0.99167E-01     0.10690E-02 ; almost repulsive, SC1-Qa
+  BB   POL      1       0.94209E-01     0.10156E-02 ; almost repulsive 95%, New Modif
+  BB   D        1       0.00            0.00
+  AB   POL      1       0.21558E-00     0.23238E-02 ; attractive, Qa-POL
+  AB   D        1       0.00            0.00
+  POL  D        1       0.00            0.00
+  POL  Qd       1       0.21558E-00     0.23238E-02 ; attractive, POL-Qd
+  D    Qd       1       0.00            0.00
+  Qd   AB       1       0.17246E-00     0.18590E-02 ; semi attractive, Qd-Qa
+  Qd   Qa       1       0.17246E-00     0.18590E-02 ; semi attractive, Qd-Qa, SK-add
+  TB   AB       1      	0.99167E-01     0.10690E-02 ; almost repulsive, Q0-Qa, SK-add
+  Qd   RB       1       0.13366E-00     0.14408E-02 ; almost intermediate, SC4-Qd
+  Qd   BB       1       0.99167E-01     0.10690E-02 ; almost repulsive, SC1-Qd
+  TB   BB	1	0.99167E-01     0.10690E-02 ; almost repulsive, SC1-Q0, NewAdd
+  TB   RB	1	0.13366E-00     0.14408E-02 ; almost intermediate, SC4-Q0, NewAdd
+  TB   Qa	1	0.99167E-01     0.10690E-02 ; almost repulsive, Q0-Qa, NewAdd
+  TB   POL  	1	0.19402E-00     0.20914E-02 ; almost attractive, Q0-POL, NewAdd
+  TB   D	1	0.00000E-00     0.00000E-00 ; no LJ interaction, NewAdd
+  Qa   BB	1	0.99167E-01     0.10690E-02 ; almost repulsive, NewAdd
+  Qa   RB	1	0.13366E-00     0.14408E-02 ; almost intermediate, NewAdd
+  Qa   POL	1	0.21558E-00     0.23238E-02 ; attractive, NewAdd
+  Qa   D	1	0.00000E-00     0.00000E-00 ; no LJ interaction, NewAdd
+  TB   Qd	1	0.99167E-01     0.10690E-02 ; almost repulsive,Q0-Qd,  SK-add
+  AB   Qa	1	0.15091E-00     0.16267E-02 ; intermediate, SK-add
+
+;;;;;; POLARIZABLE WATER
+
+[ moleculetype ]
+; molname       nrexcl
+PW              1
+
+[ atoms ]
+;id type resnr residu atom cgnr   charge
+ 1   POL   1    PW     W    1      0
+ 2   D     1    PW     WP   1      0.46
+ 3   D     1    PW     WM   1     -0.46
+
+[constraints]
+;  i     j   funct   length
+   1     2    1       0.14
+   1     3    1       0.14
+
+; for minimization purposes constraints might be replaced by stiff bonds:
+;
+;[bonds]
+;  i     j   funct   length   force const.
+ ;  1     2    1       0.14    50000
+;   1     3    1       0.14    50000
+
+[angles]
+;   i    j   k   funct  angle    fc
+    2    1   3    2     0.0     4.2
+
+[exclusions]
+   1     2  3
+   2     3
+
+;;;;;; HYDRATED SODIUM ION
+;
+; same particle type would represent HYDRATED POTASSIUM
+; topology section
+
+
+[moleculetype]
+; molname       nrexcl
+  NA            1
+
+[atoms]
+;id     type    resnr   residu  atom    cgnr    charge
+ 1      Qd      1       ION     NA      1       1.0
+
+
+;;;;;; HYDRATED CHLORIDE ION
+
+[moleculetype]
+; molname 	nrexcl
+  CL 		1
+
+[atoms]
+;id 	type 	resnr 	residu 	atom 	cgnr 	charge
+ 1 	Qa 	1 	ION 	CL 	1 	-1.0
